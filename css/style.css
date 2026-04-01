@@ -1,0 +1,947 @@
+/*
+  ============================================================
+  Vibe Boilerplate — style.css
+  ============================================================
+  Vanilla CSS only. No preprocessors, no external libraries.
+  Organised into the following sections:
+
+    1.  Design Tokens (CSS Custom Properties)
+    2.  Base Reset & Defaults
+    3.  Typography
+    4.  Layout Utilities
+    5.  Skip Link
+    6.  Site Header & Navigation
+    7.  Hero Section
+    8.  Sections (generic)
+    9.  Card Grid
+   10.  Buttons
+   11.  Forms
+   12.  Site Footer
+   13.  Utility Classes
+   14.  Reduced Motion
+   15.  Print Styles (optional)
+
+  HOW TO CUSTOMISE:
+  - Change design token values in Section 1.
+  - Most visual changes can be made there alone.
+  - Add new component blocks below the existing ones.
+  - Do not change the order of the base/reset sections.
+  ============================================================
+*/
+
+
+/* ============================================================
+   1. DESIGN TOKENS
+   All reusable values live here as CSS custom properties.
+   Changing these cascades through the entire stylesheet.
+   ============================================================ */
+
+:root {
+
+  /* --- Colour Palette --- */
+  /* Primary brand colour and its scale */
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-500: #3b82f6;
+  --color-primary:     #2563eb;  /* main interactive colour */
+  --color-primary-700: #1d4ed8;
+  --color-primary-900: #1e3a8a;
+
+  /* Neutral scale — used for text, borders, backgrounds */
+  --color-neutral-50:  #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-500: #64748b;
+  --color-neutral-700: #334155;
+  --color-neutral-900: #0f172a;
+
+  /* Semantic colours */
+  --color-text:        var(--color-neutral-900);
+  --color-text-muted:  var(--color-neutral-500);
+  --color-bg:          #ffffff;
+  --color-bg-alt:      var(--color-neutral-50);
+  --color-border:      var(--color-neutral-200);
+  --color-focus-ring:  var(--color-primary);
+
+  /* Status colours */
+  --color-success:     #16a34a;
+  --color-success-bg:  #dcfce7;
+  --color-error:       #dc2626;
+  --color-error-bg:    #fee2e2;
+  --color-warning:     #d97706;
+  --color-warning-bg:  #fef3c7;
+
+  /* --- Typography --- */
+  /* System font stack — no external fonts required */
+  --font-family-base:    system-ui, -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+                         "Apple Color Emoji", "Segoe UI Emoji";
+  --font-family-mono:    ui-monospace, "Cascadia Code", "Source Code Pro",
+                         Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+  /* Type scale (using a fluid base between 16–18px) */
+  --font-size-xs:   0.75rem;    /* 12px */
+  --font-size-sm:   0.875rem;   /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg:   1.125rem;   /* 18px */
+  --font-size-xl:   1.25rem;    /* 20px */
+  --font-size-2xl:  1.5rem;     /* 24px */
+  --font-size-3xl:  1.875rem;   /* 30px */
+  --font-size-4xl:  2.25rem;    /* 36px */
+  --font-size-5xl:  3rem;       /* 48px */
+
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --line-height-tight:  1.25;
+  --line-height-snug:   1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed:1.625;
+
+  /* --- Spacing Scale --- */
+  /* Based on a 4px grid */
+  --space-1:  0.25rem;   /* 4px  */
+  --space-2:  0.5rem;    /* 8px  */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+
+  /* --- Layout --- */
+  --container-max:       72rem;   /* 1152px — main max-width */
+  --container-narrow:    48rem;   /* 768px  — text/form columns */
+  --container-padding-x: var(--space-4);
+
+  /* --- Borders & Radius --- */
+  --border-width:  1px;
+  --radius-sm:     0.25rem;
+  --radius-md:     0.5rem;
+  --radius-lg:     0.75rem;
+  --radius-xl:     1rem;
+  --radius-full:   9999px;
+
+  /* --- Shadows --- */
+  --shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+
+  /* --- Transitions --- */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* --- Z-Index Layers --- */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-nav:     100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+}
+
+
+/* ============================================================
+   2. BASE RESET & DEFAULTS
+   A lightweight opinionated reset on top of browser defaults.
+   ============================================================ */
+
+/*
+  Box-sizing border-box on everything.
+  This makes width/height include padding and border.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove list styles when a list has role="list" */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Smooth scrolling for anchor links, unless motion is reduced */
+html {
+  scroll-behavior: smooth;
+  /* Prevent layout shift from scrollbar appearing */
+  scrollbar-gutter: stable;
+}
+
+/* Base body styles */
+body {
+  font-family:  var(--font-family-base);
+  font-size:    var(--font-size-base);
+  font-weight:  var(--font-weight-normal);
+  line-height:  var(--line-height-normal);
+  color:        var(--color-text);
+  background:   var(--color-bg);
+  /* Prevent text from looking blurry on sub-pixel rendering */
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent horizontal scroll on mobile */
+  overflow-x: hidden;
+}
+
+/* Images and media: responsive by default */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Inherit fonts for form elements (browsers don't do this by default) */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Prevent text overflow in headings and paragraphs */
+p,
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* Allow text areas to resize only vertically */
+textarea {
+  resize: vertical;
+}
+
+/* Ensure anchors inherit colour by default (override per-component) */
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--color-primary-700);
+}
+
+/* Horizontal rule */
+hr {
+  border: none;
+  border-top: var(--border-width) solid var(--color-border);
+  margin-block: var(--space-8);
+}
+
+/* Code / pre styles */
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-family-mono);
+  font-size: 0.9em;
+}
+
+pre {
+  overflow-x: auto;
+  background: var(--color-neutral-100);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+
+/* ============================================================
+   3. TYPOGRAPHY
+   Heading and text defaults.
+   ============================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight:  var(--font-weight-bold);
+  line-height:  var(--line-height-tight);
+  color:        var(--color-text);
+}
+
+h1 { font-size: clamp(var(--font-size-3xl), 5vw, var(--font-size-5xl)); }
+h2 { font-size: clamp(var(--font-size-2xl), 3.5vw, var(--font-size-4xl)); }
+h3 { font-size: clamp(var(--font-size-xl),  2.5vw, var(--font-size-3xl)); }
+h4 { font-size: var(--font-size-xl); }
+h5 { font-size: var(--font-size-lg); }
+h6 { font-size: var(--font-size-base); }
+
+/* A utility class for muted / secondary text */
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+/* Small text */
+small, .text-sm {
+  font-size: var(--font-size-sm);
+}
+
+
+/* ============================================================
+   4. LAYOUT UTILITIES
+   Container and general layout helpers.
+   ============================================================ */
+
+/* Standard centred container with side padding */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding-x);
+}
+
+/* Narrower container for text-heavy content */
+.container--narrow {
+  max-width: var(--container-narrow);
+}
+
+/* Visually hidden — accessible text that is hidden but readable by screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+
+/* ============================================================
+   5. SKIP LINK
+   Appears on focus only; allows keyboard users to bypass nav.
+   ============================================================ */
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  /* Hidden until focused */
+  transform: translateY(-200%);
+  transition: transform var(--transition-fast);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--color-neutral-900);
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   6. SITE HEADER & NAVIGATION
+   ============================================================ */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  background: var(--color-bg);
+  border-bottom: var(--border-width) solid var(--color-border);
+  /* Subtle blur for "glass" effect on scroll — remove if you prefer plain */
+  backdrop-filter: blur(8px);
+  background-color: rgb(255 255 255 / 0.92);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 4rem; /* 64px header height */
+}
+
+/* --- Logo --- */
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.site-logo:hover {
+  color: var(--color-primary);
+}
+
+.logo-icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+/* --- Nav --- */
+.site-nav {
+  position: relative;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-md);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.nav-link:hover,
+.nav-link[aria-current="page"] {
+  color: var(--color-primary);
+  background-color: var(--color-primary-100);
+}
+
+/* --- Mobile nav toggle button --- */
+.nav-toggle {
+  display: none; /* shown on mobile via media query below */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: none;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  padding: var(--space-2);
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: var(--radius-full);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+/* Animate bars into X when nav is open */
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- Mobile breakpoint --- */
+@media (max-width: 640px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-list {
+    display: none; /* hidden by default on mobile */
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--color-bg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-2);
+    min-width: 180px;
+    z-index: var(--z-overlay);
+  }
+
+  /* JS adds .is-open to <nav> to show the dropdown */
+  .site-nav.is-open .nav-list {
+    display: flex;
+  }
+}
+
+
+/* ============================================================
+   7. HERO SECTION
+   ============================================================ */
+
+.section--hero {
+  padding-block: var(--space-20) var(--space-24);
+  background: linear-gradient(
+    to bottom,
+    var(--color-primary-100) 0%,
+    var(--color-bg)          100%
+  );
+  text-align: center;
+}
+
+.hero-heading {
+  margin-bottom: var(--space-6);
+  color: var(--color-text);
+}
+
+.hero-subheading {
+  font-size: clamp(var(--font-size-base), 2vw, var(--font-size-xl));
+  color: var(--color-text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-10);
+  max-width: 40ch;
+  margin-inline: auto;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+
+/* ============================================================
+   8. SECTIONS (GENERIC)
+   Reusable section shell used throughout the page.
+   ============================================================ */
+
+.section {
+  padding-block: var(--space-16) var(--space-20);
+}
+
+/* Alternate background for visual separation between sections */
+.section--alt {
+  background-color: var(--color-bg-alt);
+}
+
+.section-heading {
+  margin-bottom: var(--space-4);
+  text-align: center;
+}
+
+.section-subheading {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-12);
+  max-width: 50ch;
+  margin-inline: auto;
+}
+
+
+/* ============================================================
+   9. CARD GRID
+   Responsive grid of cards. Used in the features section.
+   Adapts from 1 column (mobile) → 2 → 3 (desktop).
+   ============================================================ */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+  gap: var(--space-6);
+  list-style: none;
+}
+
+.card {
+  background: var(--color-bg);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-icon {
+  font-size: var(--font-size-3xl);
+  margin-bottom: var(--space-4);
+  line-height: 1;
+}
+
+.card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-2);
+}
+
+.card-body {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+}
+
+
+/* ============================================================
+   10. BUTTONS
+   Three variants: primary, outline, ghost.
+   All share base .btn styles; modifiers adjust appearance.
+   ============================================================ */
+
+/* Base button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--transition-fast),
+    color            var(--transition-fast),
+    border-color     var(--transition-fast),
+    box-shadow       var(--transition-fast),
+    transform        var(--transition-fast);
+  /* Prevent button shrinking in flex containers */
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Focus style — applies to all button variants */
+.btn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+/* Active press feedback */
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* --- Primary: filled blue --- */
+.btn--primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-700);
+  border-color:     var(--color-primary-700);
+  color: #ffffff;
+}
+
+/* --- Outline: transparent with border --- */
+.btn--outline {
+  background-color: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn--outline:hover {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-700);
+  border-color: var(--color-primary-700);
+}
+
+/* --- Ghost: no border, no fill --- */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border-color: transparent;
+}
+
+.btn--ghost:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-text);
+}
+
+/* --- Size modifiers --- */
+.btn--sm {
+  font-size: var(--font-size-sm);
+  padding: var(--space-2) var(--space-4);
+}
+
+.btn--lg {
+  font-size: var(--font-size-lg);
+  padding: var(--space-4) var(--space-8);
+}
+
+/* --- Disabled state --- */
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   11. FORMS
+   Accessible, clean form layout.
+   ============================================================ */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Each label + input pair */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+
+/* Required asterisk */
+.form-required {
+  color: var(--color-error);
+  margin-left: 2px;
+}
+
+/* Shared input/select/textarea appearance */
+.form-input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg);
+  border: var(--border-width) solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  /* Prevent inputs from shrinking below their padding */
+  min-width: 0;
+}
+
+.form-input::placeholder {
+  color: var(--color-neutral-300);
+}
+
+.form-input:hover {
+  border-color: var(--color-neutral-500);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.15);
+}
+
+/* Invalid state — applied by JS validation */
+.form-input.is-invalid {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px rgb(220 38 38 / 0.12);
+}
+
+/* Textarea-specific */
+.form-textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+/* Inline error message below a field */
+.form-error {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  min-height: 1.25rem; /* Reserve space to prevent layout jump */
+  display: block;
+}
+
+/* Form-level status message (success or error after submit) */
+.form-status {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  display: none; /* shown via JS */
+}
+
+.form-status.is-success {
+  display: block;
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid currentColor;
+}
+
+.form-status.is-error {
+  display: block;
+  background: var(--color-error-bg);
+  color: var(--color-error);
+  border: 1px solid currentColor;
+}
+
+
+/* ============================================================
+   12. SITE FOOTER
+   ============================================================ */
+
+.site-footer {
+  border-top: var(--border-width) solid var(--color-border);
+  padding-block: var(--space-8);
+  background: var(--color-bg-alt);
+}
+
+.site-footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.footer-copy {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.footer-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  list-style: none;
+}
+
+.footer-nav a {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.footer-nav a:hover {
+  color: var(--color-primary);
+}
+
+
+/* ============================================================
+   13. UTILITY CLASSES
+   One-off helpers for common adjustments.
+   ============================================================ */
+
+/* Text alignment */
+.text-left   { text-align: left;   }
+.text-center { text-align: center; }
+.text-right  { text-align: right;  }
+
+/* Display */
+.hidden        { display: none !important; }
+.block         { display: block; }
+.inline-block  { display: inline-block; }
+.flex          { display: flex; }
+.inline-flex   { display: inline-flex; }
+
+/* Spacing helpers */
+.mt-auto { margin-top: auto; }
+.mb-0    { margin-bottom: 0; }
+
+/* Max-width clamp for readable prose */
+.prose {
+  max-width: 65ch;
+  line-height: var(--line-height-relaxed);
+}
+
+.prose p + p {
+  margin-top: var(--space-4);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.prose li + li {
+  margin-top: var(--space-2);
+}
+
+
+/* ============================================================
+   14. REDUCED MOTION
+   Disable or simplify animations for users who prefer it.
+   https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+    scroll-behavior:      auto !important;
+  }
+}
+
+
+/* ============================================================
+   15. PRINT STYLES (OPTIONAL)
+   Basic improvements for printed output.
+   Remove if you don't need them.
+   ============================================================ */
+
+@media print {
+  .site-header,
+  .site-footer,
+  .nav-toggle,
+  .btn,
+  .hero-actions {
+    display: none;
+  }
+
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+  }
+
+  a {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  /* Show full URLs after links */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555;
+  }
+}
