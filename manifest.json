@@ -5,8 +5,8 @@
   "short_name": "TinyHeroes",
   "description": "Rundenbasiertes Karten-Kampfspiel: Magierin vs. Seeschlange.",
 
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "https://eiracos-design.github.io/TinyHeroes/",
+  "scope": "https://eiracos-design.github.io/TinyHeroes/",
 
   "display": "standalone",
   "orientation": "any",
