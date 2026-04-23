@@ -278,6 +278,17 @@
        (Note: modules require a local server or GitHub
        Pages — they won't run from file:// in some browsers.)
   ───────────────────────────────────────────── -->
+  <!-- ── PWA Install Banner ── -->
+  <div class="pwa-install-banner" id="pwa-install-banner" hidden>
+    <img src="assets/icons/app-icon.png" alt="" class="pwa-install-banner__icon" aria-hidden="true">
+    <div class="pwa-install-banner__text">
+      <strong>TinyHeroes</strong>
+      <span>Zum Startbildschirm hinzufügen</span>
+    </div>
+    <button class="pwa-install-banner__btn pwa-install-banner__btn--install" id="pwa-install-btn" type="button">Installieren</button>
+    <button class="pwa-install-banner__btn pwa-install-banner__btn--dismiss" id="pwa-dismiss-btn" type="button" aria-label="Schließen">✕</button>
+  </div>
+
   <script src="js/main.js"></script>
   <script src="js/game.js"></script>
 

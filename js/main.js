@@ -463,13 +463,67 @@ function initActiveNav() {
    All feature modules are called from here.
    ============================================================ */
 
+/* ============================================================
+   PWA INSTALL PROMPT
+   ============================================================ */
+
 /**
- * Main initialisation function.
- * Called once the DOM is fully loaded.
+ * Captures the browser's beforeinstallprompt event and shows
+ * a custom install banner. Dismissed state is persisted in
+ * localStorage so the banner doesn't reappear after dismissal.
  */
+function initPwaInstallPrompt() {
+  const DISMISSED_KEY = 'pwa-install-dismissed';
+
+  // Don't show if user already dismissed
+  if (localStorage.getItem(DISMISSED_KEY)) return;
+
+  // Don't show if already running as installed PWA
+  if (window.matchMedia('(display-mode: standalone)').matches) return;
+
+  const banner     = document.getElementById('pwa-install-banner');
+  const installBtn = document.getElementById('pwa-install-btn');
+  const dismissBtn = document.getElementById('pwa-dismiss-btn');
+
+  if (!banner || !installBtn || !dismissBtn) return;
+
+  let deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    banner.hidden = false;
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log('[PWA] Install outcome:', outcome);
+    deferredPrompt = null;
+    banner.hidden = true;
+    if (outcome === 'accepted') {
+      localStorage.setItem(DISMISSED_KEY, '1');
+    }
+  });
+
+  dismissBtn.addEventListener('click', () => {
+    banner.hidden = true;
+    localStorage.setItem(DISMISSED_KEY, '1');
+  });
+
+  // Hide banner if app gets installed via browser UI
+  window.addEventListener('appinstalled', () => {
+    banner.hidden = true;
+    localStorage.setItem(DISMISSED_KEY, '1');
+    console.log('[PWA] App installed.');
+  });
+}
+
 function init() {
   initFooterYear();
   initContactForm();
+  initPwaInstallPrompt();
 
   // Log confirmation in development — remove or guard behind a flag for production
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
