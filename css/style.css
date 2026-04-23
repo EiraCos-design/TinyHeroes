@@ -295,14 +295,12 @@ small, .text-sm {
 /* Standard centred container with side padding */
 .container {
   width: 100%;
-  max-width: var(--container-max);
   margin-inline: auto;
   padding-inline: var(--container-padding-x);
 }
 
-/* Narrower container for text-heavy content */
 .container--narrow {
-  max-width: var(--container-narrow);
+  max-width: 600px;
 }
 
 /* Visually hidden — accessible text that is hidden but readable by screen readers */
@@ -533,7 +531,7 @@ small, .text-sm {
    ============================================================ */
 
 .section {
-  padding-block: var(--space-16) var(--space-20);
+  padding-block: 0;
 }
 
 /* Alternate background for visual separation between sections */
@@ -890,6 +888,18 @@ small, .text-sm {
 }
 
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ============================================================
    14. REDUCED MOTION
    Disable or simplify animations for users who prefer it.
@@ -921,40 +931,104 @@ small, .text-sm {
 /* Rundenzähler */
 .round-display {
   text-align: center;
-  font-size: var(--font-size-lg);
-  color: var(--color-text-muted);
-  margin-block-end: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* ── Charakterkarten (vertikal gestapelt: Gegner oben, Spieler unten) ── */
+.battle-arena {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  padding: var(--space-4);
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  color: white;
+  overflow: hidden;
+}
+
+.battle-arena .container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+  gap: var(--space-4);
+}
+
 .combatant-card {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  border: 2px solid var(--color-border);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
-  background: var(--color-bg-alt);
-  margin-block-end: var(--space-3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
 }
 
 .combatant-card--enemy {
-  border-color: var(--color-neutral-300);
-  background: var(--color-neutral-50, var(--color-bg-alt));
+  align-self: flex-start;
+  width: 100%;
 }
 
 .combatant-card--player {
-  border-color: var(--color-primary-200);
+  align-self: flex-end;
+  width: 100%;
+  margin-top: auto;
 }
 
-/* Großes Charakter-Emoji */
 .combatant-card__avatar {
-  font-size: 3rem;
-  line-height: 1;
   flex-shrink: 0;
-  width: 3.5rem;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.combatant-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.combatant-card__name {
+  color: white;
+}
+
+.combatant-card__hp {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.enemy-intent {
+  text-align: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-block-end: var(--space-2);
+  color: white;
+}
+
+.card-hand-section {
+  padding-bottom: var(--space-4);
+  background: rgba(0, 0, 0, 0.2);
+  margin: calc(var(--space-4) * -1);
+  margin-top: auto;
+  padding: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-hand-label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--space-2);
   text-align: center;
 }
+
+/* ── Charakterkarten (altes Design überschreiben oder anpassen) ── */
+/* Da wir .combatant-card oben schon neu definiert haben, können wir die alten Regeln suchen und ersetzen */
 
 .combatant-card__info {
   flex: 1;
@@ -1005,51 +1079,26 @@ small, .text-sm {
 }
 
 /* ── Gegner-Intent-Anzeige ── */
-.enemy-intent {
-  text-align: center;
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-neutral-100);
-  border: 1px solid var(--color-border);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  margin-block-end: var(--space-4);
-  color: var(--color-text);
-}
-
 .enemy-intent--danger {
-  background: var(--color-warning-bg);
-  border-color: var(--color-warning);
-  color: var(--color-warning);
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: white;
 }
 
 .enemy-intent--warning {
-  background: #fff8e1;
-  border-color: #f59e0b;
-  color: #92400e;
+  background: var(--color-warning);
+  border-color: var(--color-warning);
+  color: white;
 }
 
 .enemy-intent--rest {
-  background: var(--color-bg-alt);
-  border-color: var(--color-border);
-  color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.6);
   font-style: italic;
 }
 
 /* ── Karten-Hand ── */
-.card-hand-section {
-  margin-block-end: var(--space-6);
-}
-
-.card-hand-label {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-muted);
-  margin-block-end: var(--space-3);
-}
-
 .card-hand {
   display: flex;
   gap: var(--space-3);
@@ -1120,7 +1169,7 @@ small, .text-sm {
 
 /* ── Kampflog ── */
 .battle-log-section {
-  margin-block-end: var(--space-6);
+  display: none;
 }
 
 .battle-log-section__heading {

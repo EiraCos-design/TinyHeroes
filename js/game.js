@@ -112,6 +112,7 @@ const ENEMY_WAVES = [
     wave: 1,
     name: 'Seeschlange',
     emoji: '🐍',
+    image: 'assets/enemies/seeschlange.png',
     hp: 24,
     atk: 4,
     def: 1,
@@ -122,6 +123,7 @@ const ENEMY_WAVES = [
     wave: 2,
     name: 'Große Seeschlange',
     emoji: '🐉',
+    image: 'assets/enemies/seeschlange.png',
     hp: 30,
     atk: 5,
     def: 2,
@@ -131,6 +133,7 @@ const ENEMY_WAVES = [
     wave: 3,
     name: 'Uralt-Seeschlange',
     emoji: '🌊',
+    image: 'assets/enemies/seeschlange.png',
     hp: 36,
     atk: 6,
     def: 2,
@@ -190,6 +193,7 @@ function createInitialState() {
     enemy: {
       name: waveData.name,
       emoji: waveData.emoji,
+      image: waveData.image,
       hp: waveData.hp,
       maxHp: waveData.hp,
       atk: waveData.atk,
@@ -396,11 +400,15 @@ function renderStats() {
     enemyBarEl.classList.toggle('hp-bar__fill--low', pct <= 30);
   }
 
-  // Gegner-Name und Emoji aktualisieren
+  // Gegner-Name aktualisieren
   const enemyNameEl   = document.getElementById('enemy-name');
-  const enemyAvatarEl = document.getElementById('enemy-avatar');
   if (enemyNameEl)   enemyNameEl.textContent  = e.name;
-  if (enemyAvatarEl) enemyAvatarEl.textContent = e.emoji;
+
+  // Gegner-Bild aktualisieren falls vorhanden
+  const enemyImgEl = document.getElementById('enemy-image');
+  if (enemyImgEl && e.image) {
+    enemyImgEl.src = e.image;
+  }
 
   // Wellen-Anzeige
   const waveEl = document.getElementById('wave-counter');

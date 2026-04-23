@@ -469,10 +469,7 @@ function initActiveNav() {
  */
 function init() {
   initFooterYear();
-  initMobileNav();
-  initSmoothScroll();
   initContactForm();
-  initActiveNav();
 
   // Log confirmation in development — remove or guard behind a flag for production
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {

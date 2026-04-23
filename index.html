@@ -84,50 +84,6 @@
   ───────────────────────────────────────────── -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- ═══════════════════════════════════════════
-       SITE HEADER
-       Contains branding and primary navigation.
-       Role="banner" is implied by <header> at page level.
-  ═══════════════════════════════════════════ -->
-  <header class="site-header">
-    <div class="container">
-
-      <!-- Logo / Brand -->
-      <a href="/" class="site-logo" aria-label="TinyHeroes — Home">
-        <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-          <rect width="32" height="32" rx="8" fill="currentColor" />
-          <text x="16" y="22" text-anchor="middle" fill="white" font-size="18" font-family="sans-serif" font-weight="bold">⚔</text>
-        </svg>
-        <span class="logo-text">TinyHeroes</span>
-      </a>
-
-      <!-- Primary Navigation -->
-      <nav class="site-nav" aria-label="Primary navigation">
-        <!--
-          MOBILE MENU TOGGLE
-          Controlled by js/main.js — toggles aria-expanded
-          and the .is-open class on the nav.
-        -->
-        <button
-          class="nav-toggle"
-          aria-controls="primary-nav-list"
-          aria-expanded="false"
-          aria-label="Open navigation menu"
-        >
-          <!-- Hamburger icon — purely decorative -->
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-          <span class="nav-toggle-bar" aria-hidden="true"></span>
-        </button>
-
-        <ul class="nav-list" id="primary-nav-list" role="list">
-          <li><a href="#battle-arena" class="nav-link">Kampf</a></li>
-          <li><a href="#how-to-play"  class="nav-link">Anleitung</a></li>
-        </ul>
-      </nav>
-
-    </div><!-- /.container -->
-  </header>
 
   <!-- ═══════════════════════════════════════════
        MAIN CONTENT
@@ -141,18 +97,21 @@
          Aktions-Buttons, Kampflog und Game-Over-Overlay.
          Alle Spiellogik liegt in js/game.js.
     ───────────────────────────────────────────── -->
-    <section class="section" id="battle-arena" aria-labelledby="arena-heading">
+    <section class="battle-arena" id="battle-arena" aria-labelledby="arena-heading">
       <div class="container container--narrow">
-        <h1 id="arena-heading" class="section-heading">⚔️ TinyHeroes</h1>
+        <h1 id="arena-heading" class="section-heading visually-hidden">⚔️ TinyHeroes</h1>
 
         <!-- Wellen- und Rundenzähler -->
-        <p class="round-display" aria-live="polite">
+        <div class="round-display" aria-live="polite">
+          <span class="logo-text" style="font-weight: bold; color: white; margin-right: 1rem;">TinyHeroes</span>
           Welle <strong id="wave-counter">1</strong> · Runde <strong id="round-counter">1</strong>
-        </p>
+        </div>
 
         <!-- ── Gegner oben ── -->
         <article class="combatant-card combatant-card--enemy combatant-card--top" aria-label="Gegner">
-          <div class="combatant-card__avatar" id="enemy-avatar" aria-hidden="true">🐍</div>
+          <div class="combatant-card__avatar" id="enemy-avatar" aria-hidden="true">
+            <img src="assets/enemies/seeschlange.png" alt="" id="enemy-image">
+          </div>
           <div class="combatant-card__info">
             <h2 class="combatant-card__name" id="enemy-name">Seeschlange</h2>
             <p class="combatant-card__hp">
@@ -173,12 +132,14 @@
 
         <!-- ── Gegner-Intent (immer sichtbar) ── -->
         <div class="enemy-intent" id="enemy-intent" aria-live="polite" aria-atomic="true">
-          🐍 Seeschlange bereitet normalen Angriff vor.
+          Seeschlange bereitet normalen Angriff vor.
         </div>
 
         <!-- ── Spieler unten ── -->
         <article class="combatant-card combatant-card--player combatant-card--bottom" aria-label="Magierin">
-          <div class="combatant-card__avatar" aria-hidden="true">🧙‍♀️</div>
+          <div class="combatant-card__avatar" aria-hidden="true">
+            <img src="assets/heroes/magierin.png" alt="Magierin">
+          </div>
           <div class="combatant-card__info">
             <h2 class="combatant-card__name">Magierin</h2>
             <p class="combatant-card__hp">
@@ -199,10 +160,10 @@
         </article>
 
         <!-- ── Karten-Hand ── -->
-        <div class="card-hand-section">
+        <section class="card-hand-section">
           <p class="card-hand-label">Deine Hand — wähle eine Karte:</p>
           <div class="card-hand" id="card-hand" role="group" aria-label="Karten in der Hand"></div>
-        </div>
+        </section>
 
         <!-- ── Kampflog ── -->
         <section class="battle-log-section" aria-labelledby="log-heading">
