@@ -913,6 +913,283 @@ small, .text-sm {
 
 
 /* ============================================================
+   16. GAME — Kampf-Arena  (v2 — Card-Deck / Roguelite)
+   Stile für das rundenbasierte Kampfspiel (TinyHeroes).
+   Alle Werte nutzen die bestehenden Design-Tokens.
+   ============================================================ */
+
+/* Rundenzähler */
+.round-display {
+  text-align: center;
+  font-size: var(--font-size-lg);
+  color: var(--color-text-muted);
+  margin-block-end: var(--space-4);
+}
+
+/* ── Charakterkarten (vertikal gestapelt: Gegner oben, Spieler unten) ── */
+.combatant-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  background: var(--color-bg-alt);
+  margin-block-end: var(--space-3);
+}
+
+.combatant-card--enemy {
+  border-color: var(--color-neutral-300);
+  background: var(--color-neutral-50, var(--color-bg-alt));
+}
+
+.combatant-card--player {
+  border-color: var(--color-primary-200);
+}
+
+/* Großes Charakter-Emoji */
+.combatant-card__avatar {
+  font-size: 3rem;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 3.5rem;
+  text-align: center;
+}
+
+.combatant-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.combatant-card__name {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  margin-block-end: var(--space-1);
+}
+
+.combatant-card__hp {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin-block-end: var(--space-2);
+}
+
+.combatant-card__status {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-block-start: var(--space-2);
+  margin-block-end: 0;
+}
+
+/* ── HP-Balken ── */
+.hp-bar {
+  height: 0.625rem;
+  background: var(--color-neutral-200);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.hp-bar__fill {
+  height: 100%;
+  background: var(--color-success);
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+.hp-bar__fill--enemy {
+  background: var(--color-warning);
+}
+
+.hp-bar__fill--low {
+  background: var(--color-error);
+}
+
+/* ── Gegner-Intent-Anzeige ── */
+.enemy-intent {
+  text-align: center;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-neutral-100);
+  border: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-block-end: var(--space-4);
+  color: var(--color-text);
+}
+
+.enemy-intent--danger {
+  background: var(--color-warning-bg);
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
+.enemy-intent--warning {
+  background: #fff8e1;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.enemy-intent--rest {
+  background: var(--color-bg-alt);
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* ── Karten-Hand ── */
+.card-hand-section {
+  margin-block-end: var(--space-6);
+}
+
+.card-hand-label {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-block-end: var(--space-3);
+}
+
+.card-hand {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Einzelne Spielkarte */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  width: 7rem;
+  min-height: 6rem;
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  font-family: inherit;
+}
+
+.card:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.card:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Karten-Typen */
+.card--attack {
+  border-color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+.card--defense {
+  border-color: var(--color-primary-200);
+  background: var(--color-bg-alt);
+}
+
+.card--special {
+  border-color: var(--color-warning);
+  background: var(--color-warning-bg);
+}
+
+.card__label {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.card__desc {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  line-height: 1.3;
+}
+
+/* ── Kampflog ── */
+.battle-log-section {
+  margin-block-end: var(--space-6);
+}
+
+.battle-log-section__heading {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-block-end: var(--space-2);
+}
+
+.battle-log {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  max-height: 12rem;
+  overflow-y: auto;
+}
+
+.battle-log li {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  border-block-end: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.battle-log li:last-child {
+  border-block-end: none;
+}
+
+/* ── Game-Over-Overlay ── */
+.game-over-overlay {
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-border);
+  margin-block-start: var(--space-6);
+}
+
+.game-over--victory {
+  background: var(--color-success-bg);
+  border-color: var(--color-success);
+}
+
+.game-over--defeat {
+  background: var(--color-error-bg);
+  border-color: var(--color-error);
+}
+
+.game-over--wave-clear {
+  background: #f0fdf4;
+  border-color: var(--color-success);
+}
+
+.game-over-overlay__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  margin-block-end: var(--space-2);
+}
+
+.game-over-overlay__message {
+  color: var(--color-text-muted);
+  margin-block-end: var(--space-6);
+}
+
+/* ============================================================
    15. PRINT STYLES (OPTIONAL)
    Basic improvements for printed output.
    Remove if you don't need them.

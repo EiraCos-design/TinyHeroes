@@ -1,9 +1,9 @@
 {
   "_comment": "PWA Web App Manifest — OPTIONAL. Remove this file and the <link rel='manifest'> tag in index.html if you do not need PWA features.",
 
-  "name": "App Name",
-  "short_name": "App",
-  "description": "A short description of what this app does.",
+  "name": "TinyHeroes",
+  "short_name": "TinyHeroes",
+  "description": "Rundenbasiertes Karten-Kampfspiel: Magierin vs. Seeschlange.",
 
   "start_url": "./",
   "scope": "./",
@@ -14,10 +14,10 @@
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
 
-  "lang": "en",
+  "lang": "de",
   "dir": "ltr",
 
-  "categories": ["utilities"],
+  "categories": ["games"],
 
   "icons": [
     {

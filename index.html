@@ -28,17 +28,17 @@
        PRIMARY META
        Update these for every project.
   ───────────────────────────────────────────── -->
-  <title>App Name</title>
-  <meta name="description" content="A short description of what this app does. Keep it under 160 characters." />
-  <meta name="author" content="Your Name" />
+  <title>TinyHeroes — Magierin vs. Seeschlange</title>
+  <meta name="description" content="Rundenbasiertes Karten-Kampfspiel: Steuere die Magierin im Kampf gegen die Seeschlange." />
+  <meta name="author" content="TinyHeroes" />
 
   <!-- ─────────────────────────────────────────────
        OPEN GRAPH / SOCIAL SHARING
        Used by social platforms when your URL is shared.
        Replace all placeholder values.
   ───────────────────────────────────────────── -->
-  <meta property="og:title" content="App Name" />
-  <meta property="og:description" content="A short description of what this app does." />
+  <meta property="og:title" content="TinyHeroes" />
+  <meta property="og:description" content="Rundenbasiertes Karten-Kampfspiel: Magierin vs. Seeschlange." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://yourusername.github.io/your-repo/" />
   <meta property="og:image" content="https://yourusername.github.io/your-repo/assets/icons/og-image.png" />
@@ -93,13 +93,12 @@
     <div class="container">
 
       <!-- Logo / Brand -->
-      <a href="/" class="site-logo" aria-label="App Name — Home">
-        <!-- Replace this SVG with your own logo, or use a text mark. -->
+      <a href="/" class="site-logo" aria-label="TinyHeroes — Home">
         <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
           <rect width="32" height="32" rx="8" fill="currentColor" />
-          <text x="16" y="22" text-anchor="middle" fill="white" font-size="16" font-family="sans-serif" font-weight="bold">A</text>
+          <text x="16" y="22" text-anchor="middle" fill="white" font-size="18" font-family="sans-serif" font-weight="bold">⚔</text>
         </svg>
-        <span class="logo-text">App Name</span>
+        <span class="logo-text">TinyHeroes</span>
       </a>
 
       <!-- Primary Navigation -->
@@ -122,9 +121,8 @@
         </button>
 
         <ul class="nav-list" id="primary-nav-list" role="list">
-          <li><a href="#features" class="nav-link">Features</a></li>
-          <li><a href="#about"    class="nav-link">About</a></li>
-          <li><a href="#contact"  class="nav-link">Contact</a></li>
+          <li><a href="#battle-arena" class="nav-link">Kampf</a></li>
+          <li><a href="#how-to-play"  class="nav-link">Anleitung</a></li>
         </ul>
       </nav>
 
@@ -138,194 +136,116 @@
   <main id="main-content">
 
     <!-- ─────────────────────────────────────────────
-         HERO SECTION
-         Full-width introductory section with a headline,
-         sub-copy, and primary CTA.
-         Remove or swap out for your own opening section.
+         KAMPF-ARENA
+         Hauptspielbereich: Statusanzeigen, Gegner-Intent,
+         Aktions-Buttons, Kampflog und Game-Over-Overlay.
+         Alle Spiellogik liegt in js/game.js.
     ───────────────────────────────────────────── -->
-    <section class="section section--hero" aria-labelledby="hero-heading">
+    <section class="section" id="battle-arena" aria-labelledby="arena-heading">
       <div class="container container--narrow">
-        <h1 id="hero-heading" class="hero-heading">
-          Build something real,<br />without the baggage.
-        </h1>
-        <p class="hero-subheading">
-          A clean, dependency-free starter for web apps that run anywhere —
-          locally, on GitHub Pages, or any static host. No build step required.
+        <h1 id="arena-heading" class="section-heading">⚔️ TinyHeroes</h1>
+
+        <!-- Wellen- und Rundenzähler -->
+        <p class="round-display" aria-live="polite">
+          Welle <strong id="wave-counter">1</strong> · Runde <strong id="round-counter">1</strong>
         </p>
-        <div class="hero-actions">
-          <a href="#features" class="btn btn--primary">Explore features</a>
-          <a href="https://github.com/yourusername/your-repo" class="btn btn--outline" target="_blank" rel="noopener noreferrer">
-            View on GitHub
-          </a>
+
+        <!-- ── Gegner oben ── -->
+        <article class="combatant-card combatant-card--enemy combatant-card--top" aria-label="Gegner">
+          <div class="combatant-card__avatar" id="enemy-avatar" aria-hidden="true">🐍</div>
+          <div class="combatant-card__info">
+            <h2 class="combatant-card__name" id="enemy-name">Seeschlange</h2>
+            <p class="combatant-card__hp">
+              HP: <strong id="enemy-hp">24 / 24</strong>
+            </p>
+            <div
+              class="hp-bar"
+              role="progressbar"
+              aria-label="Gegner HP"
+              aria-valuemin="0"
+              aria-valuemax="24"
+              aria-valuenow="24"
+            >
+              <div class="hp-bar__fill hp-bar__fill--enemy" id="enemy-hp-bar" style="width: 100%"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ── Gegner-Intent (immer sichtbar) ── -->
+        <div class="enemy-intent" id="enemy-intent" aria-live="polite" aria-atomic="true">
+          🐍 Seeschlange bereitet normalen Angriff vor.
         </div>
-      </div>
-    </section>
 
-    <!-- ─────────────────────────────────────────────
-         FEATURES SECTION
-         Use a card grid to highlight key items.
-         Add or remove <article> cards as needed.
-    ───────────────────────────────────────────── -->
-    <section class="section" id="features" aria-labelledby="features-heading">
-      <div class="container">
-        <h2 id="features-heading" class="section-heading">Features</h2>
-        <p class="section-subheading">What this boilerplate gives you out of the box.</p>
-
-        <ul class="card-grid" role="list">
-
-          <li class="card">
-            <div class="card-icon" aria-hidden="true">&#128194;</div>
-            <h3 class="card-title">Zero dependencies</h3>
-            <p class="card-body">No npm, no bundler, no framework. Open the folder in your browser and it works.</p>
-          </li>
-
-          <li class="card">
-            <div class="card-icon" aria-hidden="true">&#9989;</div>
-            <h3 class="card-title">Accessible by default</h3>
-            <p class="card-body">Semantic HTML, visible focus styles, skip links, ARIA where appropriate, and reduced-motion support.</p>
-          </li>
-
-          <li class="card">
-            <div class="card-icon" aria-hidden="true">&#128241;</div>
-            <h3 class="card-title">Responsive layout</h3>
-            <p class="card-body">Mobile-first CSS with a fluid container, flexible grid, and no hardcoded breakpoint assumptions.</p>
-          </li>
-
-          <li class="card">
-            <div class="card-icon" aria-hidden="true">&#127760;</div>
-            <h3 class="card-title">PWA-ready (optional)</h3>
-            <p class="card-body">Optional manifest and service worker are included. Enable them when you're ready for offline support.</p>
-          </li>
-
-          <li class="card">
-            <div class="card-icon" aria-hidden="true">&#128260;</div>
-            <h3 class="card-title">GitHub Pages friendly</h3>
-            <p class="card-body">Deploy by pushing to a branch. All paths are relative. Includes a 404.html for SPA-style fallback.</p>
-          </li>
-
-          <li class="card">
-            <div class="card-icon" aria-hidden="true">&#9998;</div>
-            <h3 class="card-title">AI-extendable</h3>
-            <p class="card-body">Structured and commented for easy collaboration with AI assistants. See the prompting guide in README.</p>
-          </li>
-
-        </ul>
-      </div>
-    </section>
-
-    <!-- ─────────────────────────────────────────────
-         ABOUT SECTION
-         A generic content section. Use it for explanatory
-         prose, a mission statement, or app documentation.
-    ───────────────────────────────────────────── -->
-    <section class="section section--alt" id="about" aria-labelledby="about-heading">
-      <div class="container container--narrow">
-        <h2 id="about-heading" class="section-heading">About</h2>
-        <p>
-          This is a placeholder about section. Replace this content with a description of your project,
-          its goals, its audience, or any other introductory information.
-        </p>
-        <p>
-          You can add as many paragraphs, lists, images, or other HTML elements as needed.
-          The layout will remain readable and accessible on all screen sizes.
-        </p>
-      </div>
-    </section>
-
-    <!-- ─────────────────────────────────────────────
-         CONTACT / FORM SECTION
-         A starter contact form with accessible markup.
-         Wire up submission logic in js/main.js.
-         For static hosting, use a form service like
-         Formspree, Netlify Forms, or similar.
-    ───────────────────────────────────────────── -->
-    <section class="section" id="contact" aria-labelledby="contact-heading">
-      <div class="container container--narrow">
-        <h2 id="contact-heading" class="section-heading">Contact</h2>
-        <p>Have a question or feedback? Fill in the form below.</p>
-
-        <!--
-          FORM NOTES:
-          - action="" should point to your form handler URL.
-          - For static/GitHub Pages use, integrate with
-            Formspree (https://formspree.io) or similar.
-          - novalidate disables native browser validation;
-            custom validation is handled in js/main.js.
-        -->
-        <form
-          class="form"
-          id="contact-form"
-          action="#"
-          method="POST"
-          novalidate
-          aria-label="Contact form"
-        >
-
-          <div class="form-group">
-            <label class="form-label" for="field-name">
-              Full name <span class="form-required" aria-hidden="true">*</span>
-            </label>
-            <input
-              class="form-input"
-              type="text"
-              id="field-name"
-              name="name"
-              autocomplete="name"
-              required
-              aria-required="true"
-              aria-describedby="field-name-error"
-              placeholder="Jane Smith"
-            />
-            <span class="form-error" id="field-name-error" role="alert" aria-live="polite"></span>
+        <!-- ── Spieler unten ── -->
+        <article class="combatant-card combatant-card--player combatant-card--bottom" aria-label="Magierin">
+          <div class="combatant-card__avatar" aria-hidden="true">🧙‍♀️</div>
+          <div class="combatant-card__info">
+            <h2 class="combatant-card__name">Magierin</h2>
+            <p class="combatant-card__hp">
+              HP: <strong id="player-hp">22 / 22</strong>
+            </p>
+            <div
+              class="hp-bar"
+              role="progressbar"
+              aria-label="Magierin HP"
+              aria-valuemin="0"
+              aria-valuemax="22"
+              aria-valuenow="22"
+            >
+              <div class="hp-bar__fill" id="player-hp-bar" style="width: 100%"></div>
+            </div>
+            <p class="combatant-card__status" id="shield-status" aria-live="polite" hidden>🛡️ Schild aktiv</p>
           </div>
+        </article>
 
-          <div class="form-group">
-            <label class="form-label" for="field-email">
-              Email address <span class="form-required" aria-hidden="true">*</span>
-            </label>
-            <input
-              class="form-input"
-              type="email"
-              id="field-email"
-              name="email"
-              autocomplete="email"
-              required
-              aria-required="true"
-              aria-describedby="field-email-error"
-              placeholder="jane@example.com"
-            />
-            <span class="form-error" id="field-email-error" role="alert" aria-live="polite"></span>
-          </div>
+        <!-- ── Karten-Hand ── -->
+        <div class="card-hand-section">
+          <p class="card-hand-label">Deine Hand — wähle eine Karte:</p>
+          <div class="card-hand" id="card-hand" role="group" aria-label="Karten in der Hand"></div>
+        </div>
 
-          <div class="form-group">
-            <label class="form-label" for="field-message">
-              Message <span class="form-required" aria-hidden="true">*</span>
-            </label>
-            <textarea
-              class="form-input form-textarea"
-              id="field-message"
-              name="message"
-              rows="5"
-              required
-              aria-required="true"
-              aria-describedby="field-message-error"
-              placeholder="Your message here…"
-            ></textarea>
-            <span class="form-error" id="field-message-error" role="alert" aria-live="polite"></span>
-          </div>
-
-          <!-- Form-level status message (success/error after submit) -->
-          <div
-            class="form-status"
-            id="form-status"
-            role="status"
+        <!-- ── Kampflog ── -->
+        <section class="battle-log-section" aria-labelledby="log-heading">
+          <h2 id="log-heading" class="battle-log-section__heading">Kampflog</h2>
+          <ul
+            class="battle-log"
+            id="battle-log"
             aria-live="polite"
-            aria-atomic="true"
-          ></div>
+            aria-relevant="additions"
+            role="log"
+          ></ul>
+        </section>
 
-          <button class="btn btn--primary" type="submit">Send message</button>
+        <!-- ── Game-Over-Overlay ── -->
+        <div class="game-over-overlay" id="game-over-overlay" role="alert" aria-live="assertive" hidden>
+          <h2 class="game-over-overlay__title" id="game-over-title"></h2>
+          <p class="game-over-overlay__message" id="game-over-message"></p>
+          <button class="btn btn--primary" id="btn-restart" type="button">
+            🔄 Neu starten
+          </button>
+        </div>
 
-        </form>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────────────────────────
+         ANLEITUNG
+         Erklärt die Spielmechanik kurz und knapp.
+    ───────────────────────────────────────────── -->
+    <section class="section section--alt" id="how-to-play" aria-labelledby="howto-heading">
+      <div class="container container--narrow">
+        <h2 id="howto-heading" class="section-heading">Anleitung</h2>
+        <p>Das Deck enthält <strong>11 Karten</strong> (5 Angriff · 5 Verteidigung · 1 Spezial). Du startest mit 3 Karten — nach jeder gespielten Karte ziehst du sofort eine neue nach.</p>
+        <ul>
+          <li><strong>🔥 Feuerball</strong> (×3) — Standardangriff. Verursacht ATK − DEF Schaden.</li>
+          <li><strong>❄️ Eissplitter</strong> (×1) — +1 Schaden.</li>
+          <li><strong>✨ Arkaner Blitz</strong> (×1) — +2 Schaden.</li>
+          <li><strong>🛡️ Schild</strong> (×2) — Halbiert den Schaden <em>dieser</em> Runde sofort.</li>
+          <li><strong>💜 Mana-Schild</strong> (×2) — Blockt 3 Schaden flach.</li>
+          <li><strong>💚 Heiltrank</strong> (×1) — Heilt 4 HP.</li>
+          <li><strong>🏹 Armbrust</strong> (×1) — Starker Angriff (+4 Bonus), danach 1 Runde Cooldown.</li>
+        </ul>
+        <p>Es gibt <strong>3 Wellen</strong> mit aufsteigender Schwierigkeit. Zwischen den Wellen heilt die Magierin 6 HP. Die nächste Gegner-Aktion ist immer sichtbar — wenn <strong>💧 Vorbereitungsphase</strong> angezeigt wird, kommt nächste Runde ein starker Wasserstoß: schütze dich! Wenn die Schlange <strong>😴 ruht</strong>, greife stark an.</p>
       </div>
     </section>
 
@@ -340,14 +260,12 @@
   <footer class="site-footer">
     <div class="container">
       <p class="footer-copy">
-        &copy; <span id="footer-year"></span> App Name. Built with HTML, CSS &amp; vanilla JS.
+        &copy; <span id="footer-year"></span> TinyHeroes. Built with HTML, CSS &amp; vanilla JS.
       </p>
       <nav class="footer-nav" aria-label="Footer navigation">
         <ul role="list">
-          <li><a href="#features">Features</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li><a href="https://github.com/yourusername/your-repo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a href="#battle-arena">Kampf</a></li>
+          <li><a href="#how-to-play">Anleitung</a></li>
         </ul>
       </nav>
     </div>
@@ -362,6 +280,7 @@
        Pages — they won't run from file:// in some browsers.)
   ───────────────────────────────────────────── -->
   <script src="js/main.js"></script>
+  <script src="js/game.js"></script>
 
   <!--
     PWA SERVICE WORKER REGISTRATION (OPTIONAL)
