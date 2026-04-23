@@ -984,7 +984,8 @@ html, body {
 .battle-arena .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   justify-content: flex-start;
   gap: var(--space-4);
   overflow-y: auto;
@@ -1528,7 +1529,7 @@ html, body {
 
 /* ── Battle-Arena Mobile-Optimierung ── */
 .battle-arena {
-  overflow: hidden;
+  overflow: hidden; /* clip portraits/decorations that extend outside */
 }
 
 .battle-arena .container--narrow {
@@ -1546,7 +1547,9 @@ html, body {
     padding: var(--space-2) var(--space-3);
   }
   .card {
-    width: 6rem;
+    flex: 1;
+    min-width: 0;
+    max-width: 6rem;
     min-height: 5rem;
     padding: var(--space-2) var(--space-1);
   }
