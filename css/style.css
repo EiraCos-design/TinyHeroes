@@ -923,10 +923,20 @@ small, .text-sm {
 
 
 /* ============================================================
-   16. GAME — Kampf-Arena  (v2 — Card-Deck / Roguelite)
+   16. GAME — Kampf-Arena  (v3 — Mobile-First PWA)
    Stile für das rundenbasierte Kampfspiel (TinyHeroes).
    Alle Werte nutzen die bestehenden Design-Tokens.
    ============================================================ */
+
+/* ── Globales App-Layout: Vollbild, kein Scroll ── */
+html, body {
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: #0f172a;
+}
 
 /* Rundenzähler */
 .round-display {
@@ -942,8 +952,33 @@ small, .text-sm {
   height: 100dvh;
   padding: var(--space-4);
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background-size: cover;
+  background-position: center;
   color: white;
   overflow: hidden;
+  transition: background-image 0.6s ease;
+}
+
+/* Hintergrundbilder pro Welle */
+.battle-arena[data-bg="sea"] {
+  background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('../assets/backgrounds/background_sea.png');
+}
+.battle-arena[data-bg="hell"] {
+  background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('../assets/backgrounds/background_hell.png');
+}
+.battle-arena[data-bg="vulcano"] {
+  background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('../assets/backgrounds/background_vulcano.png');
+}
+.battle-arena[data-bg="ice"] {
+  background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('../assets/backgrounds/background_ice.png');
+}
+.battle-arena[data-bg="castle"] {
+  background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('../assets/backgrounds/background_castle.png');
 }
 
 .battle-arena .container {
@@ -989,6 +1024,13 @@ small, .text-sm {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.enemy-emoji-fallback {
+  font-size: 3.5rem;
+  line-height: 1;
+  display: block;
+  text-align: center;
 }
 
 .combatant-card__name {
@@ -1236,6 +1278,274 @@ small, .text-sm {
 .game-over-overlay__message {
   color: var(--color-text-muted);
   margin-block-end: var(--space-6);
+}
+
+/* ============================================================
+   17. MODALS, INFO-BUTTON & CHARAKTER-AUSWAHL
+   ============================================================ */
+
+/* ── Modal Backdrop ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+/* ── Modal Box ── */
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 26rem;
+  max-height: 90dvh;
+  overflow-y: auto;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(160deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: var(--space-6) var(--space-4);
+  color: white;
+  text-align: center;
+}
+
+.modal--info {
+  text-align: left;
+}
+
+.modal__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  margin-block-end: var(--space-2);
+  color: white;
+}
+
+.modal__subtitle {
+  font-size: var(--font-size-base);
+  color: rgba(255, 255, 255, 0.7);
+  margin-block-end: var(--space-6);
+}
+
+.modal__close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.modal__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.modal__body {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+
+.modal__body h3 {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: white;
+  margin-block-start: var(--space-4);
+  margin-block-end: var(--space-2);
+}
+
+.modal__body ul {
+  padding-inline-start: var(--space-4);
+  margin-block-end: var(--space-2);
+}
+
+.modal__body li {
+  margin-block-end: var(--space-1);
+}
+
+.modal__body p {
+  margin-block-end: var(--space-3);
+}
+
+/* ── Hero-Karten im Modal ── */
+.hero-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.hero-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  color: white;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.hero-card:hover {
+  transform: translateX(4px);
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.hero-card:active {
+  transform: translateX(2px);
+}
+
+.hero-card__avatar {
+  flex-shrink: 0;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.hero-card__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero-card__avatar--emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.hero-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-card__name {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  line-height: 1.2;
+  display: block;
+}
+
+.hero-card__stats {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.6);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-card__desc {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.4;
+}
+
+/* ── Zurück-Button (oben links, fixed) ── */
+.back-btn {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 50;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.back-btn[hidden] {
+  display: none;
+}
+
+/* ── Info-Button (oben rechts, fixed) ── */
+.info-btn {
+  position: fixed;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 50;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.info-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.info-btn[hidden] {
+  display: none;
+}
+
+/* ── Battle-Arena Mobile-Optimierung ── */
+.battle-arena {
+  overflow: hidden;
+}
+
+.battle-arena .container--narrow {
+  max-width: 100%;
+  padding-inline: var(--space-3);
+}
+
+/* Kompaktere Combatant-Karten auf kleinen Screens */
+@media (max-height: 700px) {
+  .combatant-card__avatar {
+    width: 56px;
+    height: 56px;
+  }
+  .combatant-card {
+    padding: var(--space-2) var(--space-3);
+  }
+  .card {
+    width: 6rem;
+    min-height: 5rem;
+    padding: var(--space-2) var(--space-1);
+  }
 }
 
 /* ============================================================

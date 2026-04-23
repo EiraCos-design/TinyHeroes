@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <!--
   ============================================================
@@ -84,20 +84,99 @@
   ───────────────────────────────────────────── -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
+  <!-- ── Charakter-Auswahl Modal ── -->
+  <div class="modal-backdrop" id="character-select" role="dialog" aria-modal="true" aria-labelledby="select-heading">
+    <div class="modal">
+      <h1 id="select-heading" class="modal__title">⚔️ TinyHeroes</h1>
+      <p class="modal__subtitle">Wähle deinen Helden:</p>
+      <div class="hero-cards">
+
+        <button class="hero-card" id="hero-btn-magierin" type="button">
+          <span class="hero-card__avatar">
+            <img src="assets/heroes/GameIcon/willow.png" alt="Willow">
+          </span>
+          <span class="hero-card__name">Willow</span>
+          <span class="hero-card__stats">HP 22 · ATK 5 · DEF 2</span>
+          <span class="hero-card__desc">Ausgewogene Zauberin mit Feuer, Eis und Armbrust.</span>
+        </button>
+
+        <button class="hero-card" id="hero-btn-fledermaus" type="button">
+          <span class="hero-card__avatar">
+            <img src="assets/heroes/GameIcon/shaddow.png" alt="Shaddow">
+          </span>
+          <span class="hero-card__name">Shaddow</span>
+          <span class="hero-card__stats">HP 18 · ATK 6 · DEF 1</span>
+          <span class="hero-card__desc">Schnell und aggressiv — heilt sich durch Blutdrain.</span>
+        </button>
+
+        <button class="hero-card" id="hero-btn-goettin" type="button">
+          <span class="hero-card__avatar">
+            <img src="assets/heroes/GameIcon/morigin.png" alt="Morigin">
+          </span>
+          <span class="hero-card__name">Morigin</span>
+          <span class="hero-card__stats">HP 20 · ATK 5 · DEF 3</span>
+          <span class="hero-card__desc">Hohe Verteidigung, Flüche und Seelenernte.</span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Anleitung Modal ── -->
+  <div class="modal-backdrop modal-backdrop--info" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-heading" hidden>
+    <div class="modal modal--info">
+      <button class="modal__close" id="btn-info-close" type="button" aria-label="Schließen">✕</button>
+      <h2 id="info-heading" class="modal__title">📖 Anleitung</h2>
+      <div class="modal__body">
+        <p>Wähle einen von <strong>3 Helden</strong>. Du hast immer <strong>3 Karten</strong> auf der Hand. Jede neue Welle startest du mit <strong>vollen HP</strong>. Nach jeder Welle wählst du ein <strong>Upgrade</strong>: 💖 +5 Max-HP oder ⚔️ +1 Angriff.</p>
+        <h3>Willow</h3>
+        <ul>
+          <li><strong>🔥 Feuerball</strong> ×3 — Standardangriff</li>
+          <li><strong>❄️ Eissplitter</strong> ×1 — +1 Schaden</li>
+          <li><strong>✨ Arkaner Blitz</strong> ×1 — +2 Schaden</li>
+          <li><strong>🛡️ Schild</strong> ×2 — Halbiert Schaden</li>
+          <li><strong>💚 Heiltrank</strong> ×1 — Heilt 4 HP</li>
+          <li><strong>🏹 Armbrust</strong> ×1 — +4 Schaden, Cooldown 1</li>
+          <li><strong>🪞 Spiegel</strong> ×1 — 50–100% reflektieren <em>(ab Welle 3)</em></li>
+        </ul>
+        <h3>Shaddow</h3>
+        <ul>
+          <li><strong>🦷 Biss</strong> ×3 — Standardangriff</li>
+          <li><strong>🔊 Ultraschall</strong> ×1 — +2 Schaden</li>
+          <li><strong>💨 Sturzflug</strong> ×1 — +3 Schaden, Cooldown 1</li>
+          <li><strong>📡 Echolot</strong> ×2 — Halbiert Schaden</li>
+          <li><strong>🩸 Blutdrain</strong> ×1 — Heilt 3 HP &amp; +1 Schaden</li>
+          <li><strong>🌑 Schattenmantel</strong> ×1 — Halbiert Schaden</li>
+          <li><strong>🪞 Spiegel</strong> ×1 — 50–100% reflektieren <em>(ab Welle 3)</em></li>
+        </ul>
+        <h3>Morigin</h3>
+        <ul>
+          <li><strong>💀 Seelenschlag</strong> ×3 — Standardangriff</li>
+          <li><strong>🌀 Fluch</strong> ×1 — +1 Schaden</li>
+          <li><strong>☠️ Todesblitz</strong> ×1 — +2 Schaden, Cooldown 1</li>
+          <li><strong>🌑 Unterwelt-Schild</strong> ×2 — Halbiert Schaden</li>
+          <li><strong>✨ Seelenernte</strong> ×1 — Heilt 5 HP</li>
+          <li><strong>🌊 Nekrotische Welle</strong> ×1 — Standardangriff</li>
+          <li><strong>🪞 Spiegel</strong> ×1 — 50–100% reflektieren <em>(ab Welle 3)</em></li>
+        </ul>
+        <p><strong>5 Wellen:</strong> Seeschlange 🐍 · Dämon 😈 · Feuer Einhorn 🦄 · Eis Drache 🐲 · Medusa 👁️</p>
+        <p>Die nächste Gegner-Aktion ist immer sichtbar — bei <strong>💡 Vorbereitungsphase</strong> schütze dich!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Zurück-Button (oben links) ── -->
+  <button class="back-btn" id="btn-back-to-select" type="button" aria-label="Zurück zur Charakterauswahl" hidden>🏠</button>
+
+  <!-- ── Info-Button (oben rechts) ── -->
+  <button class="info-btn" id="btn-info-open" type="button" aria-label="Anleitung öffnen" hidden>❓</button>
 
   <!-- ═══════════════════════════════════════════
        MAIN CONTENT
-       id="main-content" is the skip-link target.
   ═══════════════════════════════════════════ -->
   <main id="main-content">
 
-    <!-- ─────────────────────────────────────────────
-         KAMPF-ARENA
-         Hauptspielbereich: Statusanzeigen, Gegner-Intent,
-         Aktions-Buttons, Kampflog und Game-Over-Overlay.
-         Alle Spiellogik liegt in js/game.js.
-    ───────────────────────────────────────────── -->
-    <section class="battle-arena" id="battle-arena" aria-labelledby="arena-heading">
+    <section class="battle-arena" id="battle-arena" aria-labelledby="arena-heading" hidden>
       <div class="container container--narrow">
         <h1 id="arena-heading" class="section-heading visually-hidden">⚔️ TinyHeroes</h1>
 
@@ -111,6 +190,7 @@
         <article class="combatant-card combatant-card--enemy combatant-card--top" aria-label="Gegner">
           <div class="combatant-card__avatar" id="enemy-avatar" aria-hidden="true">
             <img src="assets/enemies/seeschlange.png" alt="" id="enemy-image">
+            <span class="enemy-emoji-fallback" id="enemy-emoji-fallback"></span>
           </div>
           <div class="combatant-card__info">
             <h2 class="combatant-card__name" id="enemy-name">Seeschlange</h2>
@@ -136,12 +216,12 @@
         </div>
 
         <!-- ── Spieler unten ── -->
-        <article class="combatant-card combatant-card--player combatant-card--bottom" aria-label="Magierin">
-          <div class="combatant-card__avatar" aria-hidden="true">
-            <img src="assets/heroes/magierin.png" alt="Magierin">
+        <article class="combatant-card combatant-card--player combatant-card--bottom" aria-label="Spieler">
+          <div class="combatant-card__avatar" id="player-avatar-emoji" aria-hidden="true">
+            <img src="assets/heroes/GameIcon/willow.png" alt="Willow">
           </div>
           <div class="combatant-card__info">
-            <h2 class="combatant-card__name">Magierin</h2>
+            <h2 class="combatant-card__name" id="player-name">Magierin</h2>
             <p class="combatant-card__hp">
               HP: <strong id="player-hp">22 / 22</strong>
             </p>
@@ -189,48 +269,7 @@
       </div>
     </section>
 
-    <!-- ─────────────────────────────────────────────
-         ANLEITUNG
-         Erklärt die Spielmechanik kurz und knapp.
-    ───────────────────────────────────────────── -->
-    <section class="section section--alt" id="how-to-play" aria-labelledby="howto-heading">
-      <div class="container container--narrow">
-        <h2 id="howto-heading" class="section-heading">Anleitung</h2>
-        <p>Das Deck enthält <strong>11 Karten</strong> (5 Angriff · 5 Verteidigung · 1 Spezial). Du startest mit 3 Karten — nach jeder gespielten Karte ziehst du sofort eine neue nach.</p>
-        <ul>
-          <li><strong>🔥 Feuerball</strong> (×3) — Standardangriff. Verursacht ATK − DEF Schaden.</li>
-          <li><strong>❄️ Eissplitter</strong> (×1) — +1 Schaden.</li>
-          <li><strong>✨ Arkaner Blitz</strong> (×1) — +2 Schaden.</li>
-          <li><strong>🛡️ Schild</strong> (×2) — Halbiert den Schaden <em>dieser</em> Runde sofort.</li>
-          <li><strong>💜 Mana-Schild</strong> (×2) — Blockt 3 Schaden flach.</li>
-          <li><strong>💚 Heiltrank</strong> (×1) — Heilt 4 HP.</li>
-          <li><strong>🏹 Armbrust</strong> (×1) — Starker Angriff (+4 Bonus), danach 1 Runde Cooldown.</li>
-        </ul>
-        <p>Es gibt <strong>3 Wellen</strong> mit aufsteigender Schwierigkeit. Zwischen den Wellen heilt die Magierin 6 HP. Die nächste Gegner-Aktion ist immer sichtbar — wenn <strong>💧 Vorbereitungsphase</strong> angezeigt wird, kommt nächste Runde ein starker Wasserstoß: schütze dich! Wenn die Schlange <strong>😴 ruht</strong>, greife stark an.</p>
-      </div>
-    </section>
-
   </main>
-  <!-- /#main-content -->
-
-  <!-- ═══════════════════════════════════════════
-       SITE FOOTER
-       Role="contentinfo" is implied by <footer>
-       at the page level.
-  ═══════════════════════════════════════════ -->
-  <footer class="site-footer">
-    <div class="container">
-      <p class="footer-copy">
-        &copy; <span id="footer-year"></span> TinyHeroes. Built with HTML, CSS &amp; vanilla JS.
-      </p>
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <ul role="list">
-          <li><a href="#battle-arena">Kampf</a></li>
-          <li><a href="#how-to-play">Anleitung</a></li>
-        </ul>
-      </nav>
-    </div>
-  </footer>
 
   <!-- ─────────────────────────────────────────────
        SCRIPTS
