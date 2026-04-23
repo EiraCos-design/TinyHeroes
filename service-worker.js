@@ -58,6 +58,7 @@ const CACHE_URLS = [
   './js/main.js',
   './js/game.js',
   './manifest.json',
+  './assets/icons/app-icon.png',
   './assets/heroes/GameIcon/willow.png',
   './assets/heroes/GameIcon/shaddow.png',
   './assets/heroes/GameIcon/morigin.png',
